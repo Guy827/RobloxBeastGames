@@ -1,7 +1,16 @@
+local function enforceBillion(obj)
+    obj.Changed:Connect(function()
+        if obj.Value < 1_000_000_000 then
+            obj.Value = 1_000_000_000 -- Keep enforcing the value
+        end
+    end)
+end
+
 local function setValuesToBillion(parent)
     for _, obj in pairs(parent:GetDescendants()) do
         if obj:IsA("NumberValue") or obj:IsA("IntValue") then
-            obj.Value = 1_000_000_000 -- Set to 1 billion
+            obj.Value = 1_000_000_000
+            enforceBillion(obj) -- Monitor changes
         end
     end
 end
@@ -13,5 +22,6 @@ setValuesToBillion(game)
 game.DescendantAdded:Connect(function(descendant)
     if descendant:IsA("NumberValue") or descendant:IsA("IntValue") then
         descendant.Value = 1_000_000_000
+        enforceBillion(descendant) -- Monitor changes
     end
 end)
