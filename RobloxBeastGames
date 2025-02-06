@@ -1,0 +1,17 @@
+local function setValuesToBillion(parent)
+    for _, obj in pairs(parent:GetDescendants()) do
+        if obj:IsA("NumberValue") or obj:IsA("IntValue") then
+            obj.Value = 1_000_000_000 -- Set to 1 billion
+        end
+    end
+end
+
+-- Apply the change to all existing objects in the game
+setValuesToBillion(game)
+
+-- Keep updating new values that might appear later
+game.DescendantAdded:Connect(function(descendant)
+    if descendant:IsA("NumberValue") or descendant:IsA("IntValue") then
+        descendant.Value = 1_000_000_000
+    end
+end)
